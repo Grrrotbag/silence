@@ -1,10 +1,11 @@
 {
-	"name": "fcc-library",
+	"name": "silence",
 	"version": "1.0.0",
-	"description": "boilerplate",
+	"description": "Book library API",
 	"main": "server.js",
 	"scripts": {
-		"start": "node server.js"
+		"start": "node server.js",
+		"dev": "nodemon server.js"
 	},
 	"dependencies": {
 		"body-parser": "^1.15.2",
@@ -15,6 +16,7 @@
 		"express": "^4.14.0",
 		"mocha": "^3.2.0",
 		"mongodb": "^3.6.2",
+		"mongoose": "^5.11.15",
 		"zombie": "^5.0.5"
 	},
 	"repository": {
