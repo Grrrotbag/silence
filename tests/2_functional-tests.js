@@ -49,7 +49,7 @@ suite("Functional Tests", function () {
           .send({})
           .end((err, res) => {
             assert.equal(res.status, 200);
-            assert.equal(res.text, `{"error":"required field(s) missing"}`);
+            assert.equal(res.text, `missing required field title`);
             done();
           });
       });
@@ -63,9 +63,9 @@ suite("Functional Tests", function () {
           .end(function (err, res) {
             assert.equal(res.status, 200);
             assert.isArray(res.body, "response should be an array");
-            assert.equal(res.body[0].commentcount, 0);
-            assert.equal(res.body[0].title, "Test Title");
-            assert.equal(res.body[0]._id, test_id);
+            assert.property(res.body[0], 'title');
+            assert.property(res.body[0], 'commentcount');
+            assert.property(res.body[0], '_id');
             done();
           });
       });
@@ -75,10 +75,10 @@ suite("Functional Tests", function () {
       test("Test GET /api/books/[id] with id not in db", function (done) {
         chai
           .request(server)
-          .get("/api/books/1234")
+          .get(`/api/books/${wrong_id}`)
           .end(function (err, res) {
             assert.equal(res.status, 200);
-            assert.equal(res.text, `{"error":"invalid id"}`);
+            assert.equal(res.text, `no book exists`);
             done();
           });
       });
@@ -119,7 +119,7 @@ suite("Functional Tests", function () {
           .send({})
           .end(function (err, res) {
             assert.equal(res.status, 200);
-            assert.equal(res.text, `{"error":"no comment supplied"}`);
+            assert.equal(res.text, `no comment supplied`);
             done();
           });
       });
@@ -131,7 +131,7 @@ suite("Functional Tests", function () {
           .send({ comment: "test comment 2" })
           .end(function (err, res) {
             assert.equal(res.status, 200);
-            assert.equal(res.text, `{"error":"no book with that ID exists"}`);
+            assert.equal(res.text, `no book exists`);
             done();
           });
       });
@@ -144,7 +144,7 @@ suite("Functional Tests", function () {
           .delete(`/api/books/${test_id}`)
           .end(function (err, res) {
             assert.equal(res.status, 200);
-            assert.equal(res.text, `{"response":"delete successful"}`);
+            assert.equal(res.text, `delete successful`);
             done();
           });
       });
@@ -155,7 +155,7 @@ suite("Functional Tests", function () {
           .delete(`/api/books/${wrong_id}`)
           .end(function (err, res) {
             assert.equal(res.status, 200);
-            assert.equal(res.text, `{"error":"no book with that ID exists"}`);
+            assert.equal(res.text, `no book exists`);
             done();
           });
       });

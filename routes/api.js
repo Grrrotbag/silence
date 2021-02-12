@@ -46,7 +46,7 @@ module.exports = function (app) {
       let title = req.body.title;
 
       if (!title) {
-        return res.json({ error: "required field(s) missing" });
+        return res.send("missing required field title");
       }
 
       const newBook = new Book({
@@ -57,7 +57,7 @@ module.exports = function (app) {
 
       newBook.save((err, book) => {
         if (err) {
-          return res.json({ error: "something went wrong" });
+          return res.send("something went wrong");
         }
 
         return res.json({
@@ -73,18 +73,24 @@ module.exports = function (app) {
       //if successful response will be 'complete delete successful'
 
       Book.deleteMany({}, (err, doc) => {
-        return res.json({ response: "complete delete successful" });
+        return res.send("complete delete successful");
       });
     });
 
   app
     .route("/api/books/:id")
-    .get(function (req, res) {
+    .get(async function (req, res) {
       //json res format: {"_id": bookid, "title": book_title, "comments": [comment,comment,...]}
       let bookid = req.params.id;
 
+      const bookExists = await Book.exists({ _id: bookid });
+
+      if (!bookExists) {
+        return res.send("no book exists");
+      }
+
       Book.findById(bookid, (err, book) => {
-        if (err) return res.json({ error: "invalid id" });
+        if (err) return res.send("no book exists");
         return res.json({
           _id: book.id,
           title: book.title,
@@ -101,11 +107,11 @@ module.exports = function (app) {
       const bookExists = await Book.exists({ _id: bookid });
 
       if (!bookExists) {
-        return res.json({ error: "no book with that ID exists" });
+        return res.send("no book exists");
       }
 
       if (comment === null || comment === undefined || !comment) {
-        return res.json({ error: "no comment supplied" });
+        return res.send("no comment supplied");
       }
 
       Book.findOneAndUpdate(
@@ -113,7 +119,7 @@ module.exports = function (app) {
         { $push: { comments: comment } },
         { $inc: { commentcount: 1 } },
         (err, book) => {
-          if (err) return res.json({ error: "no comment supplied" });
+          if (err) return res.send("no comment supplied");
           return res.json({
             _id: book.id,
             title: book.title,
@@ -129,11 +135,11 @@ module.exports = function (app) {
       let bookid = req.params.id;
       const doesBookExist = await Book.exists({ _id: bookid });
       if (!doesBookExist) {
-        return res.json({ error: "no book with that ID exists" });
+        return res.send("no book exists");
       }
       Book.deleteOne({ _id: bookid }, (err, doc) => {
         if (err) return res.json({ error: "could not delete" });
-        return res.json({ response: "delete successful" });
+        return res.send("delete successful");
       });
     });
 };
