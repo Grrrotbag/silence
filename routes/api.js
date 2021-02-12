@@ -29,8 +29,7 @@ module.exports = function (app) {
   app
     .route("/api/books")
     .get(function (req, res) {
-      //response will be array of book objects
-      // DONE: json res format: [{"_id": bookid, "title": book_title, "commentcount": num_of_comments },...]
+      
       Book.find({}, (err, books) => {
         let allBooks = {};
 
@@ -42,7 +41,6 @@ module.exports = function (app) {
     })
 
     .post(function (req, res) {
-      //response will contain new book object including atleast _id and title
       let title = req.body.title;
 
       if (!title) {
@@ -70,8 +68,6 @@ module.exports = function (app) {
     })
 
     .delete(function (req, res) {
-      //if successful response will be 'complete delete successful'
-
       Book.deleteMany({}, (err, doc) => {
         return res.send("complete delete successful");
       });
@@ -80,7 +76,6 @@ module.exports = function (app) {
   app
     .route("/api/books/:id")
     .get(async function (req, res) {
-      //json res format: {"_id": bookid, "title": book_title, "comments": [comment,comment,...]}
       let bookid = req.params.id;
 
       const bookExists = await Book.exists({ _id: bookid });
@@ -101,9 +96,9 @@ module.exports = function (app) {
     })
 
     .post(async function (req, res) {
-      //json res format same as .get
       let bookid = req.params.id;
       let comment = req.body.comment;
+
       const bookExists = await Book.exists({ _id: bookid });
 
       if (!bookExists) {
@@ -111,27 +106,26 @@ module.exports = function (app) {
       }
 
       if (comment === null || comment === undefined || !comment) {
-        return res.send("no comment supplied");
+        return res.send("missing required field comment");
       }
 
       Book.findOneAndUpdate(
         { _id: bookid },
         { $push: { comments: comment } },
-        { $inc: { commentcount: 1 } },
+        { 'new': true},
         (err, book) => {
-          if (err) return res.send("no comment supplied");
+          if (err) return res.send("missing required field comment");
           return res.json({
             _id: book.id,
             title: book.title,
             comments: book.comments,
-            commentcount: book.commentcount + 1, //FIXME: blatant hack $INC not working
+            commentcount: book.comments.length,
           });
         }
       );
     })
 
     .delete(async function (req, res) {
-      //if successful response will be 'delete successful'
       let bookid = req.params.id;
       const doesBookExist = await Book.exists({ _id: bookid });
       if (!doesBookExist) {

@@ -1,11 +1,3 @@
-/*
- *
- *
- *       FILL IN EACH FUNCTIONAL TEST BELOW COMPLETELY
- *       -----[Keep the tests in the same order!]-----
- *
- */
-
 const chaiHttp = require("chai-http");
 const chai = require("chai");
 const assert = chai.assert;
@@ -14,13 +6,6 @@ const server = require("../server");
 chai.use(chaiHttp);
 
 suite("Functional Tests", function () {
-  /*
-   * ----[EXAMPLE TEST]----
-   * Each test should completely test the response of the API end-point including response status code!
-   */
-  /*
-   * ----[END of EXAMPLE TEST]----
-   */
 
   let test_id;
   const wrong_id = "5eb78994dbb89024f04a2507";
@@ -119,7 +104,7 @@ suite("Functional Tests", function () {
           .send({})
           .end(function (err, res) {
             assert.equal(res.status, 200);
-            assert.equal(res.text, `no comment supplied`);
+            assert.equal(res.text, `missing required field comment`);
             done();
           });
       });
