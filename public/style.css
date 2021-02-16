@@ -1,27 +1,123 @@
-.border {
-  border-style: solid;
-  border-width: 1px;
-  margin: 10px;
+* {
+  box-sizing: border-box;
 }
 
-#sampleui {
-  max-width: 450px;
-  margin-left: 5%;
-  height: 100%;
+:root {
+  --ivory: #eaf2e3ff;
+  --middle-blue-green: #a6ede2ff;
+  --quick-silver: #aaa09cff;
+  --tart-orange: #f25757ff;
+  --sandy-brown: #f2a05dff;
+  --corn: #f2e863ff;
+  --orange-yellow-crayola: #f2cd60ff;
+  --base-font: "Cormorant Garamond", serif;
+  --logo-font: "Monoton";
+  --logo-font: "Cormorant Garamond";
+  --form-font: "Cormorant Garamond";
+  --button-font: "Bebas Neue";
+  --mono-font: "Roboto Mono", monospace;
 }
 
-#sampleposting {
-  max-width: 450px;
+body {
+  font-family: sans-serif;
+  margin: 25px;
+  color: #222;
+  background-color: #f5f5f5;
+}
+
+h1 {
+  font-weight: 400;
+  font-family: var(--logo-font);
+  font-size: 6em;
+  text-transform: uppercase;
+  /* color: var(--quick-silver); */
+  letter-spacing: 0.2em;
+}
+
+h2 {
+  font-family: var(--logo-font);
+  font-size: 2em;
+}
+
+.subheading {
+  font-family: var(--logo-font);
   text-align: center;
-  margin-left: 5%;
+  /* color: var(--quick-silver); */
+  font-size: 2em;
+  font-style: italic;
 }
 
-#userstories {
-  margin-left: 5%;
+h3 {
+  font-family: var(--form-font);
+  font-size: 1.5em;
+}
+
+hr {
+  color: #222;
+  border-width: 1px;
 }
 
 form {
-  padding: 5px;
+  margin-bottom: 25px;
+  padding: 15px;
+  display: inline-block;
+  width: 100%;
+  border-radius: 5px;
+}
+
+#container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+#sampleposting {
+  width: 750px;
+  width: 75%;
+  display: flex;
+  justify-content: space-between;
+}
+
+#sampleposting form {
+  width: 48%;
+}
+
+#sampleui {
+  width: 750px;
+  width: 75%;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+#display ul {
+  padding: 0;
+}
+
+.bookItem {
+  list-style-type: none;
+  cursor: pointer;
+}
+
+#bookDetail {
+  margin: 0;
+}
+
+#newCommentForm {
+  margin: 0;
+  margin-left: -40px;
+  width: 100%;
+}
+
+#detailTitle {
+  padding-left: 15px;
+}
+
+.border {
+  border-style: solid;
+  border-width: 1px;
+  /* margin: 10px; */
 }
 
 label {
@@ -29,6 +125,77 @@ label {
   font-weight: bold;
 }
 
-input {
-  margin-bottom: 5px;
+input,
+button {
+  display: block;
+  margin-bottom: 10px;
+  padding: 5px;
+  width: 100%;
+  border: 1px solid var(--quick-silver);
+  border-radius: 3px;
+  font-size: 16px;
+}
+
+input[type="submit"],
+button[type="submit"] {
+  font-family: var(--button-font);
+  font-size: 1.3em;
+  border-radius: 3px;
+  background-color: #e4f1fe;
+  background-color: var(--middle-blue-green);
+  border: 1px solid grey;
+  box-shadow: 2px 2px var(--quick-silver);
+  cursor: pointer;
+}
+
+#deleteAllBooks {
+  font-family: var(--button-font);
+  margin-top: 10px;
+  font-size: 1.3em;
+  border-radius: 3px;
+  background-color: var(--orange-yellow-crayola);
+  border: 1px solid grey;
+  box-shadow: 2px 2px var(--quick-silver);
+  cursor: pointer;
+}
+#deleteAllBooks:hover {
+  background-color: var(--tart-orange);
+  color: #e4f1fe;
+}
+input[type="submit"]:hover,
+button[type="submit"]:hover {
+  background-color: #fffec4;
+  background-color: var(--corn);
+}
+
+.addComment,
+.deleteBook {
+  margin-left: -25px;
+  font-family: var(--button-font);
+  font-size: 1.3em;
+  border-radius: 3px;
+  background-color: #e4f1fe;
+  background-color: var(--middle-blue-green);
+  border: 1px solid grey;
+  box-shadow: 2px 2px var(--quick-silver);
+  cursor: pointer;
+}
+
+.addcomment:hover {
+  background-color: var(--corn);
+}
+
+.deleteBook {
+  background-color: var(--orange-yellow-crayola);
+}
+
+.deleteBook:hover {
+  background-color: var(--tart-orange);
+  color: #e4f1fe;
+}
+
+code {
+  font-family: var(--mono-font);
+  font-size: 1em;
+  padding: 2px;
 }
